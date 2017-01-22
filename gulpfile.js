@@ -3,14 +3,11 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
-var jshint = require('gulp-jshint');
-var _ = require('lodash');
-var jscs = require('gulp-jscs');
 var gutil = require('gulp-util');
-var stylishJshint = require('jshint-stylish');
-var stylishJscs = require('jscs-stylish');
+let eslint = require('gulp-eslint');
 
-var sourceFiles = ['index.js', 'lib/**/*.js'];
+
+var sourceFiles = ['index.js', 'lib/**/*.js', 'bin/index.js'];
 var testSourceFiles = ['test/**/**.spec.js'];
 var allSourceFiles = sourceFiles.concat(testSourceFiles);
 
@@ -31,24 +28,11 @@ gulp.task('test', function (done) {
     .on('error', gutil.log);
 });
 
-gulp.task('style', function () {
-
-  return gulp.src(allSourceFiles)
-    .pipe(jscs())
-    .pipe(jscs.reporter(stylishJscs.path))
-    .pipe(jscs.reporter('fail'));
-});
-
 gulp.task('lint', function () {
-
   return gulp.src(allSourceFiles)
-    .pipe(jshint())
-    .pipe(jshint.reporter(stylishJshint))
-    .pipe(jshint.reporter('gulp-jshint-html-reporter', {
-      filename: __dirname + '/lint.html',
-      createMissingFolders: false
-    }))
-    .pipe(jshint.reporter('fail'));
+             .pipe(eslint())
+             .pipe(eslint.format())
+             .pipe(eslint.failAfterError());
 });
 
-gulp.task('default', ['test', 'lint', 'style']);
+gulp.task('default', ['test', 'lint']);

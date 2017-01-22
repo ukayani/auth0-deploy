@@ -4,7 +4,6 @@ const co = require('bluebird').coroutine;
 const path = require('path');
 const program = require('commander');
 const nconf = require('nconf');
-const assert = require('assert');
 const ManagementClient = require('auth0').ManagementClient;
 const deploy = require('../lib/deploy');
 const token = require('../lib/token');
@@ -20,10 +19,10 @@ const hasClient = options => options.clientId && options.clientSecret;
 const checkRequired = options => {
   if (!options.auth0Domain) {
     fail('domain is required');
-    }
+  }
   if (!hasToken(options) && !hasClient(options)) {
     fail('need to specify one of token or (client-id, client-secret)');
-    }
+  }
 };
 
 const getClientInfo = (options) => {
@@ -37,9 +36,9 @@ const run = (type, options) => {
   return co(function* () {
     nconf.argv().env();
 
-    const token = (hasToken(options)) ? options.token : yield token.get(options.auth0Domain, getClientInfo(options));
+    const authToken = (hasToken(options)) ? options.token : yield token.get(options.auth0Domain, getClientInfo(options));
     const client = new ManagementClient({
-      token,
+      token: authToken,
       domain: options.auth0Domain
     });
 
