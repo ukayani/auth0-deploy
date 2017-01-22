@@ -18,22 +18,26 @@ const hasToken = options => options.token;
 const hasClient = options => options.clientId && options.clientSecret;
 
 const checkRequired = options => {
-  if (!options.auth0Domain) fail('domain is required');
-  if (!hasToken(options) && !hasClient(options)) fail('need to specify one of token or (client-id, client-secret)');
+  if (!options.auth0Domain) {
+    fail('domain is required');
+    }
+  if (!hasToken(options) && !hasClient(options)) {
+    fail('need to specify one of token or (client-id, client-secret)');
+    }
 };
 
 const getClientInfo = (options) => {
-    return {
-      id: options.clientId,
-      secret: options.clientSecret
-    };
+  return {
+    id: options.clientId,
+    secret: options.clientSecret
+  };
 };
 
 const run = (type, options) => {
   return co(function* () {
     nconf.argv().env();
 
-    const token = (hasToken(options)) ? options.token: yield token.get(options.auth0Domain, getClientInfo(options));
+    const token = (hasToken(options)) ? options.token : yield token.get(options.auth0Domain, getClientInfo(options));
     const client = new ManagementClient({
       token,
       domain: options.auth0Domain
