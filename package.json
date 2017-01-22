@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "A tool for automated deployment of auth0 components",
   "main": "index.js",
+  "bin": {
+    "auth0-deploy": "bin/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ukayani/auth0-deploy.git"
@@ -32,10 +35,11 @@
     "supertest": "^1.1.0"
   },
   "dependencies": {
-    "assert-plus": "^0.1.5",
     "assert": "^1.4.1",
+    "assert-plus": "^0.1.5",
     "auth0": "^2.6.0",
     "bluebird": "^3.4.3",
+    "commander": "^2.9.0",
     "lodash": "^4.17.4",
     "mz": "^2.4.0",
     "nconf": "^0.8.4",
