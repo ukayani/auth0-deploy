@@ -85,7 +85,7 @@ Options:
 
 In order to allow the API calls to the management API to succeed you must:
 
-- Create a client which has grants for the appropriate scopes
+- Create a client which has grants for the appropriate scopes (see: [Auth0 Deploy Cli](https://github.com/auth0/auth0-deploy-cli#to-create-client-by-hand))
     - Specify `--client-id` and `--client-secret` via cli
     - Specify Auth0 Domain for the account via `--auth0-domain`
 
@@ -139,6 +139,20 @@ The following scripts are supported:
 
 From the above example, you can see that only the `login.js` custom script is specified.
 Any of the scripts which are specified will be added to the connection during creation.
+
+Example `config.json`
+
+```json
+{
+  "options": {
+    "bareConfiguration":{
+      "hostname": "https://myidpurl.com"
+    }
+  }
+}
+```
+
+The above `config.json` specifies some configuration properties for the custom scripts to access
 
 ### Command
 
@@ -211,6 +225,48 @@ As you can see, the grant specifies the `audience` and `scope`, but not the `cli
 auth0-deploy client --token <your-access-token> --auth0-domain <yourhost.auth0.com>
 ```
 
+## Environment specific overrides
+
+You may want to have differing values for certain configuration options based on the environment you
+are deploying to.
+
+For example, if we want to create a connection which contacts our own IDP server to authenticate users, you
+may want to specify different URIs for the IDP server for each environment.
+
+To do so, you can add placeholders to your `config.json` files in the form: `@@PLACEHOLDER_NAME@@`
+
+Going back to the connection example, lets look at an example `config.json`
+
+### Environment Specific config
+
+```json
+{
+  "options": {
+    "bareConfiguration":{
+      "hostname": "@@IDP_URI@@"
+    }
+  }
+}
+```
+
+Here we have a placeholder for the value of the `hostname` config property.
+The placeholders name is `IDP_URI`
+
+To specify values for this placeholder you can:
+
+- Export and environment variable with the name `IDP_URI` before executing the deploy command
+
+**OR**
+
+- Specify an argument `--IDP_URI <uri>` with the deploy command
+
+Example:
+
+```bash
+auth0-deploy connection --token <your-access-token> --auth0-domain <yourhost.auth0.com> --IDP_URI https://myidp.organization.com
+```
+
+The above command will replace all instances of the placeholder `IDP_URI` with the given url (which may be specific to the environment)
 
 # Usage (as a node module)
 
