@@ -254,7 +254,7 @@ The placeholders name is `IDP_URI`
 
 To specify values for this placeholder you can:
 
-- Export and environment variable with the name `IDP_URI` before executing the deploy command
+- Export an environment variable with the name `IDP_URI` before executing the deploy command
 
 **OR**
 
