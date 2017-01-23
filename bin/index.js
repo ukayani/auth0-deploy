@@ -32,11 +32,16 @@ const getClientInfo = (options) => {
   };
 };
 
-const run = (type, options) => {
-  return co(function* () {
-    nconf.argv().env();
+const AUTH0_DOMAIN = 'AUTH0_DOMAIN';
 
-    const authToken = (hasToken(options)) ? options.token : yield token.get(options.auth0Domain, getClientInfo(options));
+const run = (type, options) => {
+  return co(function*() {
+    nconf.argv().env();
+    // make domain available in config
+    nconf.set(AUTH0_DOMAIN, options.auth0Domain);
+
+    const authToken = (hasToken(options)) ? options.token : yield token.get(options.auth0Domain,
+      getClientInfo(options));
     const client = new ManagementClient({
       token: authToken,
       domain: options.auth0Domain
@@ -45,7 +50,6 @@ const run = (type, options) => {
     const workingDir = options.workingDir ? path.resolve(options.workingDir) : process.cwd();
 
     deploy(client, type, workingDir, nconf);
-
   })();
 };
 
