@@ -36,9 +36,13 @@ const AUTH0_DOMAIN = 'AUTH0_DOMAIN';
 
 const run = (type, options) => {
   return co(function*() {
-    nconf.argv().env();
+
+    const defaults = {};
+    defaults[AUTH0_DOMAIN] = options.auth0Domain;
+
     // make domain available in config
-    nconf.set(AUTH0_DOMAIN, options.auth0Domain);
+    nconf.argv().env().defaults(defaults);
+
 
     const authToken = (hasToken(options)) ? options.token : yield token.get(options.auth0Domain,
       getClientInfo(options));
