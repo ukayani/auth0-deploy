@@ -1,3 +1,4 @@
+'use strict';
 module.exports = {
   deploy: require('./lib/deploy'),
   token: require('./lib/token'),

@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+'use strict';
+
 const pkg = require('../package.json');
 const co = require('bluebird').coroutine;
 const path = require('path');
