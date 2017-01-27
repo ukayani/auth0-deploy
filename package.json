@@ -14,8 +14,13 @@
     "test": "mocha"
   },
   "keywords": [
-    "restify",
-    "router"
+    "auth0",
+    "deploy",
+    "deployment",
+    "connection",
+    "resource",
+    "client",
+    "oauth"
   ],
   "author": "ukayani",
   "license": "ISC",
