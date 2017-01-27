@@ -36,7 +36,7 @@ const getClientInfo = (options) => {
 
 const AUTH0_DOMAIN = 'AUTH0_DOMAIN';
 
-const run = (type, options) => {
+const run = (type, name, options) => {
   return co(function*() {
 
     const defaults = {};
@@ -44,7 +44,6 @@ const run = (type, options) => {
 
     // make domain available in config
     nconf.argv().env().defaults(defaults);
-
 
     const authToken = (hasToken(options)) ? options.token : yield token.get(options.auth0Domain,
       getClientInfo(options));
@@ -55,18 +54,23 @@ const run = (type, options) => {
 
     const workingDir = options.workingDir ? path.resolve(options.workingDir) : process.cwd();
 
-    deploy(client, type, workingDir, nconf);
+    if (name) {
+      yield deploy.single(client, type, workingDir, name, nconf);
+    } else {
+      yield deploy.all(client, type, workingDir, nconf);
+    }
+
   })();
 };
 
 const setupProgram = (program, type, description) => {
   program
-    .command(type)
+    .command(`${type} [name]`)
     .allowUnknownOption(true)
     .description(description)
-    .action(() => {
+    .action((name) => {
       checkRequired(program);
-      run(type, program);
+      run(type, name, program);
     });
 };
 
