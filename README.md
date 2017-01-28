@@ -9,6 +9,7 @@ Currently the module supports the following components:
 - Clients (with client grants) - Create/Update
 - Resource Servers (API) - Create/Update
 - Connections - Create/Update
+- Rules - Create/Update
 
 ## Installation
 
@@ -35,6 +36,10 @@ components
 │   └── member-idp
 │       ├── config.json
 │       └── login.js
+├── rules
+│   └── member-rule
+│       ├── config.json
+│       └── rule.js
 └── resource-servers
     └── members
         └── config.json
@@ -51,6 +56,8 @@ In the above example we expect the following components:
     - member-idp
 - Resource Server
     - members
+- Rules
+    - member-rule
 
 ### Common Conventions
 
@@ -62,10 +69,10 @@ In the above example we expect the following components:
 ### General CLI Usage
 
 ```bash
-auth0-deploy <component-type> [options]
+auth0-deploy <component-type> [name] [options]
 ```
 
-**component-type** : Can be any of the following: `resource`, `connection`, `client`
+**component-type** : Can be any of the following: `resource`, `connection`, `client`, `rule`
 
 **options**
 
@@ -80,6 +87,9 @@ Options:
     -d, --auth0-domain <domain>     Auth0 Domain
     -w, --working-dir <workingdir>  working directory for auth0 components (defaults to current working directory)
 ```
+
+Specifying the name of the component is optional. If the name is not specified, all components under the component type's folder will be
+created/updated.
 
 **Authorization**
 
@@ -119,6 +129,10 @@ read:client_grants
 update:client_grants
 create:client_grants
 delete:client_grants
+
+read:rules
+update:rules
+create:rules
 ```
 
 ## Connections
@@ -225,6 +239,26 @@ As you can see, the grant specifies the `audience` and `scope`, but not the `cli
 auth0-deploy client --token <your-access-token> --auth0-domain <yourhost.auth0.com>
 ```
 
+## Rule
+
+To create rules you must specify a `rule.js` file which contains your rule code. In addition to the `rule.js`
+you can also specify a `config.json` similar to other components.
+
+An example `config.json` would look like:
+
+```json
+{
+  "order": 2,
+  "stage": "login_success"
+}
+```
+
+
+```bash
+auth0-deploy rule --token <your-access-token> --auth0-domain <yourhost.auth0.com>
+```
+
+
 ## Environment specific overrides
 
 You may want to have differing values for certain configuration options based on the environment you
@@ -267,6 +301,7 @@ auth0-deploy connection --token <your-access-token> --auth0-domain <yourhost.aut
 ```
 
 The above command will replace all instances of the placeholder `IDP_URI` with the given url (which may be specific to the environment)
+
 
 # Usage (as a node module)
 
