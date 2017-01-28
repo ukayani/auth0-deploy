@@ -86,5 +86,6 @@ program
 setupProgram(program, 'resource', 'Create resource servers');
 setupProgram(program, 'connection', 'Create connections');
 setupProgram(program, 'client', 'Create clients');
+setupProgram(program, 'rule', 'Create rule');
 
 program.parse(process.argv);
