@@ -1,6 +1,6 @@
 {
   "name": "auth0-deploy",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A tool for automated deployment of auth0 components",
   "main": "index.js",
   "bin": {
