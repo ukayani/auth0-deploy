@@ -32,6 +32,7 @@ components
 │   └── my-client
 │       ├── config.json
 │       └── grants.json
+│       └── login.html
 ├── connections
 │   └── member-idp
 │       ├── config.json
@@ -215,7 +216,7 @@ auth0-deploy resource --token <your-access-token> --auth0-domain <yourhost.auth0
 ## Client
 
 Clients follow the same convention as resources except you can specify **client-grants** via
-the file `grants.json`
+the file `grants.json` and a login hosted page via `login.html`
 
 This file must consist of an array of grants which conform to the grant body as per the [Management API](https://auth0.com/docs/api/management/v2#!/Client_Grants/post_client_grants) requirements.
 Each grant must omit the `client_id` property as this will be automatically filled based on the given client.
