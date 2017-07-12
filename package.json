@@ -10,8 +10,20 @@
     "type": "git",
     "url": "https://github.com/ukayani/auth0-deploy.git"
   },
+  "releaseme": {
+    "steps": [
+      "checkStatus",
+      "lint",
+      "setReleaseVersion",
+      "commitReleaseVersion",
+      "tagRelease",
+      "setNextVersion",
+      "commitNextVersion",
+      "pushChanges"
+    ]
+  },
   "scripts": {
-    "test": "mocha"
+    "lint": "gulp"
   },
   "keywords": [
     "auth0",
