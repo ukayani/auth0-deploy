@@ -60,7 +60,9 @@ const run = (type, name, options) => {
       yield deploy.all(client, type, workingDir, nconf);
     }
 
-  })();
+  })().catch(err => {
+    fail(err.message);
+  });
 };
 
 const setupProgram = (program, type, description) => {
