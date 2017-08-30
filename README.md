@@ -307,3 +307,7 @@ The above command will replace all instances of the placeholder `IDP_URI` with t
 # Usage (as a node module)
 
 ...
+
+# License
+
+MIT
