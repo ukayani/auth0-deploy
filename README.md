@@ -256,9 +256,9 @@ An example `config.json` would look like:
 
 
 ```bash
-auth0-deploy rule --token <your-access-token> --auth0-domain <yourhost.auth0.com>
+auth0-deploy rule <rule-name> --token <your-access-token> --auth0-domain <yourhost.auth0.com>
+# <rule-name> is optional
 ```
-
 
 ## Environment specific overrides
 
@@ -302,6 +302,44 @@ auth0-deploy connection --token <your-access-token> --auth0-domain <yourhost.aut
 ```
 
 The above command will replace all instances of the placeholder `IDP_URI` with the given url (which may be specific to the environment)
+
+#### For Rules
+If you want environment specific values for your rule, you can create an `env.json` file inside your rule folder like the following
+
+```
+components
+|
+├── rules
+│   └── member-rule
+│       ├── config.json
+│       ├── rule.js
+|       └── env.json
+
+```
+example env.json
+```json
+{
+  "MY_CLAIM_KEY": "https://example.com/channel",
+  "MY_CLAIM_VALUE": "WEBSITE",
+  "MY_CLIENT_ID": "@@MY_CLIENT_ID@@" //placeholder value
+}
+```
+
+You can then reference the env. variables you define in `env.json` inside your rule script via `configuration` object.
+```javascript
+# rule.js
+
+function injectMyClaim(user, context, callback) {
+  const mobileClientId = configuration.MOBILE_CLIENT_ID
+  const claimKey = configuration.MY_CLAIM_KEY
+  const claimValue = configuration.MY_CLAIM_VALUE
+  if (context.clientID === mobileClientId) {
+    context.accessToken[claimKey] = claimValue;
+  }
+
+  callback(null, user, context);
+}
+```
 
 
 # Usage (as a node module)
