@@ -2,6 +2,8 @@
 
 A module which allows easy convention-based deployment of Auth0 components
 
+**NOTE**: This tool is not actively maintained anymore. A similar tool which is under active development can be found at [Auth0 Deploy CLI](https://github.com/auth0/auth0-deploy-cli/)
+
 ### Supported Components
 
 Currently the module supports the following components:
